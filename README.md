@@ -12,6 +12,8 @@ El proyecto permite realizar operaciones CRUD sobre una entidad `User` en una ba
 - **JPA (Java Persistence API)**: Para interactuar con la base de datos.
 - **MySQL**: Sistema de gestión de bases de datos.
 - **Maven**: Herramienta de construcción y gestión de dependencias.
+- **JWT (JSON Web Token)**: Para autenticación basada en tokens.
+
 
 ### Funcionalidades
 
@@ -19,6 +21,7 @@ El proyecto permite realizar operaciones CRUD sobre una entidad `User` en una ba
 - **Leer**: Permite consultar y mostrar todos los registros de usuarios o uno específico.
 - **Actualizar**: Permite modificar los registros de un usuario existente.
 - **Eliminar**: Permite eliminar un registro de usuario.
+- **Autenticación con JWT**: Los endpoints protegidos requieren un token JWT válido para su acceso.
 
 ## Endpoints
 
@@ -64,6 +67,44 @@ El proyecto permite realizar operaciones CRUD sobre una entidad `User` en una ba
 **Método HTTP**: `DELETE`
 **Ruta**: `/api/users/{id}`
 **Descripción**: Elimina un usuario por su ID.
+
+## Autenticación con JWT
+Se ha implementado un sistema de autenticación basado en JWT (JSON Web Tokens). Los usuarios deben autenticarse y obtener un token válido para poder acceder a los endpoints protegidos.
+
+### Registro de usuario
+**Método HTTP**: `POST`
+**Ruta**: `/api/auth/register`
+**Descripción**: Registra un nuevo usuario con credenciales.
+```json
+{
+  "username": "usuario123",
+  "password": "password123"
+}
+```
+
+### Inicio de sesión
+**Método HTTP**: `POST`
+**Ruta**: `/api/auth/login`
+**Descripción**: Inicia sesión con credenciales válidas y devuelve un token JWT.
+
+```json
+{
+  "username": "usuario123",
+  "password": "password123"
+}
+```
+** Respuesta **
+```
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+### Usar el token en las solicitudes
+Incluye el token en el encabezado Authorization para acceder a los endpoints protegidos:
+
+```
+Authorization: Bearer tu_token_jwt
+```
 
 ## Instalación
 
@@ -111,6 +152,8 @@ Una vez que el servidor esté en ejecución, puedes acceder a la API a través d
 - **PUT** `/api/users/{id}`: Actualizar un usuario.
 - **DELETE** `/api/users/{id}`: Eliminar un usuario.
 
-Puedes probar las solicitudes utilizando herramientas como Postman o Insomnia.
+Puedes probar las solicitudes utilizando herramientas como Postman o Insomnia, o directamente desde la interfaz de Swagger UI disponible en:
+http://localhost:8080/swagger-ui/index.html
+Swagger proporciona una documentación interactiva donde puedes visualizar y probar los endpoints, incluyendo el envío de tokens JWT para las rutas protegidas.
 
 Este proyecto está licenciado bajo la Licencia Apache 2.0 - consulta el archivo [LICENSE](LICENSE) para más detalles.
